@@ -10,7 +10,7 @@ HOST="${WITH_OUT_PROTOCOL%%/*}"
 echo "Url: $URL"
 echo "Hostname:$HOST"
 
-#DNS check
+#DNS CHECK
 
 IP=$(dig +short "$HOST" | head -n 1)
 
@@ -20,3 +20,12 @@ echo "DNS: PASS - $IP"
 else
 echo "DNS: FAIL - could not resolve host name"
 fi
+
+#TCP CHECK
+
+ if nc -z -w 5 "$HOST" 443 2>/dev/null; then
+echo "TCP: PASS - Port 443 is reachable"
+else
+echo "TCP: FAIL - Port 443 is not reachable"
+fi
+
