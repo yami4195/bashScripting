@@ -49,3 +49,13 @@ if [ -n "$EXPIRY" ]; then
 else
     echo "TLS: FAIL - Could not retrieve certificate"
 fi
+
+#HTTPS STATUS CODE CHECK
+
+HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "$HOST")
+
+if [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 400 ]; then
+echo "HTTP: PASS - Status $HTTP_STATUS"
+else
+echo "HTTP: FAIL - Status $HTTP_STATUS"
+fi
