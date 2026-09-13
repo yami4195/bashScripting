@@ -29,3 +29,12 @@ else
 echo "TCP: FAIL - Port 443 is not reachable"
 fi
 
+#CERTIFICATE CHECK
+
+EXPIRY=$(echo | openssl s_client -connect "$HOST:443" -servername "$HOST" 2>/dev/null | openssl x509 -noout -enddate 2>/dev/null | cut -d= -f2 )
+
+if [ -n "$EXPIRY" ]; then 
+echo "TLS: PASS - Certificate expires: $EXPIRY"
+else
+echo "TLS: FAIL - Could not retrieve certificate"
+fi
