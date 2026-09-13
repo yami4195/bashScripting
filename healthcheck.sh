@@ -2,31 +2,42 @@
 
 URL="$1"
 
-echo "Checking $URL"
+LOG_FILE="healthcheck.log"
+
+TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")
+
+log() {
+echo  "$1" | tee -a "$LOG_FILE" 
+}
+
+
+log "[$TIMESTAMP] Checking: $URL"
 
 WITH_OUT_PROTOCOL="${URL#*://}"
+
 HOST="${WITH_OUT_PROTOCOL%%/*}"
 
-echo "Url: $URL"
-echo "Hostname:$HOST"
+log "Url: $URL"
+
+log "Hostname:$HOST"
 
 #DNS CHECK
 
 IP=$(dig +short "$HOST" | head -n 1)
 
 if [ -n "$IP" ]; then
-echo "DNS: PASS - $IP"
+log "DNS: PASS - $IP"
 
 else
-echo "DNS: FAIL - could not resolve host name"
+log "DNS: FAIL - could not resolve host name"
 fi
 
 #TCP CHECK
 
  if nc -z -w 5 "$HOST" 443 2>/dev/null; then
-echo "TCP: PASS - Port 443 is reachable"
+log "TCP: PASS - Port 443 is reachable"
 else
-echo "TCP: FAIL - Port 443 is not reachable"
+log "TCP: FAIL - Port 443 is not reachable"
 fi
 
 #CERTIFICATE CHECK
@@ -40,14 +51,14 @@ if [ -n "$EXPIRY" ]; then
     DAYS_LEFT=$(( (EXPIRY_EPOCH - NOW_EPOCH) / 86400 ))
 
     if [ "$DAYS_LEFT" -lt 0 ]; then
-        echo "TLS: FAIL - Certificate has expired"
+        log "TLS: FAIL - Certificate has expired"
     elif [ "$DAYS_LEFT" -lt 30 ]; then
-        echo "TLS: WARNING - Certificate expires in $DAYS_LEFT days"
+        log "TLS: WARNING - Certificate expires in $DAYS_LEFT days"
     else
-        echo "TLS: PASS - Certificate expires in $DAYS_LEFT days"
+        log "TLS: PASS - Certificate expires in $DAYS_LEFT days"
     fi
 else
-    echo "TLS: FAIL - Could not retrieve certificate"
+    log "TLS: FAIL - Could not retrieve certificate"
 fi
 
 #HTTPS STATUS CODE CHECK
@@ -55,7 +66,7 @@ fi
 HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "$HOST")
 
 if [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 400 ]; then
-echo "HTTP: PASS - Status $HTTP_STATUS"
+log "HTTP: PASS - Status $HTTP_STATUS"
 else
-echo "HTTP: FAIL - Status $HTTP_STATUS"
+log "HTTP: FAIL - Status $HTTP_STATUS"
 fi

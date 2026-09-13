@@ -1,0 +1,8 @@
+
+[2026-09-14 02:15:25] Checking: google.com
+Url: google.com
+Hostname:google.com
+DNS: PASS - 142.250.202.238
+TCP: PASS - Port 443 is reachable
+TLS: PASS - Certificate expires in 49 days
+HTTP: PASS - Status 301
