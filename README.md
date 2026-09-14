@@ -1,4 +1,4 @@
-# URL Health Check
+# URL Health Checker
 
 A simple Bash script that checks whether a website is reachable by testing DNS resolution, TCP connectivity, TLS certificate expiry, and HTTP response status.
 
