@@ -4,6 +4,8 @@ URL="$1"
 
 LOG_FILE="healthcheck.log"
 
+FAILED=0
+
 TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")
 
 log() {
@@ -30,6 +32,7 @@ log "DNS: PASS - $IP"
 
 else
 log "DNS: FAIL - could not resolve host name"
+FAILED=1
 fi
 
 #TCP CHECK
@@ -38,6 +41,7 @@ fi
 log "TCP: PASS - Port 443 is reachable"
 else
 log "TCP: FAIL - Port 443 is not reachable"
+ FAILED=1
 fi
 
 #CERTIFICATE CHECK
@@ -52,6 +56,7 @@ if [ -n "$EXPIRY" ]; then
 
     if [ "$DAYS_LEFT" -lt 0 ]; then
         log "TLS: FAIL - Certificate has expired"
+         FAILED=1
     elif [ "$DAYS_LEFT" -lt 30 ]; then
         log "TLS: WARNING - Certificate expires in $DAYS_LEFT days"
     else
@@ -59,6 +64,7 @@ if [ -n "$EXPIRY" ]; then
     fi
 else
     log "TLS: FAIL - Could not retrieve certificate"
+    FAILED=1
 fi
 
 #HTTPS STATUS CODE CHECK
@@ -69,4 +75,15 @@ if [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 400 ]; then
 log "HTTP: PASS - Status $HTTP_STATUS"
 else
 log "HTTP: FAIL - Status $HTTP_STATUS"
+ FAILED=1
+fi
+
+echo ""
+
+if [ "$FAILED" -eq 0 ]; then
+    log "Overall: HEALTHY"
+    exit 0
+else
+    log "Overall: UNHEALTHY"
+    exit 1
 fi

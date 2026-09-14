@@ -6,3 +6,19 @@ DNS: PASS - 142.250.202.238
 TCP: PASS - Port 443 is reachable
 TLS: PASS - Certificate expires in 49 days
 HTTP: PASS - Status 301
+[2026-09-15 00:31:15] Checking: google.com
+Url: google.com
+Hostname:google.com
+DNS: PASS - 142.250.202.238
+TCP: PASS - Port 443 is reachable
+TLS: PASS - Certificate expires in 48 days
+HTTP: PASS - Status 301
+Overall: HEALTHY
+[2026-09-15 00:32:34] Checking: https://httpstat.us/404
+Url: https://httpstat.us/404
+Hostname:httpstat.us
+DNS: PASS - ;; communications error to 10.255.255.254#53: timed out
+TCP: PASS - Port 443 is reachable
+TLS: PASS - Certificate expires in 67 days
+HTTP: FAIL - Status 502
+Overall: UNHEALTHY
