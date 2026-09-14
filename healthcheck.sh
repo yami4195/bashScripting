@@ -1,5 +1,12 @@
 #!/bin/bash
 
+#lets check whether a url is provided
+ if [ -z "$1" ];then 
+echo "Error: Missing required URL argument."
+echo "USAGE: $0 <URL>"
+exit 1
+fi
+
 URL="$1"
 
 LOG_FILE="healthcheck.log"
