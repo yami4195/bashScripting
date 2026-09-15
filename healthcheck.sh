@@ -1,6 +1,7 @@
 #!/bin/bash
 
 #lets check whether a url is provided
+
  if [ -z "$1" ];then 
 echo "Error: Missing required URL argument."
 echo "USAGE: $0 <URL>"
@@ -38,7 +39,7 @@ if [ -n "$IP" ]; then
 log "DNS: PASS - $IP"
 
 else
-log "DNS: FAIL - could not resolve host name"
+log "DNS: FAIL - could not resolve the host name $HOST"
 FAILED=1
 fi
 

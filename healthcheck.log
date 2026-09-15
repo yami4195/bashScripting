@@ -22,3 +22,40 @@ TCP: PASS - Port 443 is reachable
 TLS: PASS - Certificate expires in 67 days
 HTTP: FAIL - Status 502
 Overall: UNHEALTHY
+[2026-09-15 00:52:05] Checking: https://this-domain-does-not-exist-12345.com
+Url: https://this-domain-does-not-exist-12345.com
+Hostname:this-domain-does-not-exist-12345.com
+DNS: FAIL - could not resolve host name
+TCP: FAIL - Port 443 is not reachable
+TLS: FAIL - Could not retrieve certificate
+HTTP: FAIL - Status 000
+Overall: UNHEALTHY
+[2026-09-15 00:52:23] Checking: https://httpstat.us/404
+Url: https://httpstat.us/404
+Hostname:httpstat.us
+DNS: PASS - 13.58.71.78
+TCP: PASS - Port 443 is reachable
+TLS: PASS - Certificate expires in 67 days
+HTTP: FAIL - Status 502
+Overall: UNHEALTHY
+[2026-09-16 00:20:44] Checking: a.com
+Url: a.com
+Hostname:a.com
+DNS: FAIL - could not resolve the host name a.com
+TCP: FAIL - Port 443 is not reachable
+TLS: FAIL - Could not retrieve certificate
+HTTP: FAIL - Status 503
+Overall: UNHEALTHY
+[2026-09-16 00:21:20] Checking: friedchicken.com
+Url: friedchicken.com
+Hostname:friedchicken.com
+DNS: PASS - 86.105.245.69
+TCP: PASS - Port 443 is reachable
+[2026-09-16 00:22:11] Checking: google.com
+Url: google.com
+Hostname:google.com
+DNS: PASS - 142.251.38.14
+TCP: PASS - Port 443 is reachable
+TLS: FAIL - Could not retrieve certificate
+HTTP: FAIL - Status 000
+Overall: UNHEALTHY
